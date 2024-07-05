@@ -11,6 +11,7 @@ const initialState = {
   price: ""
 }
 
+// didn't use it, comment out this section
 const plantSchema = object({
   name: string().required('Name is required!'),
   image: string().required('Image is required!'),
@@ -28,6 +29,7 @@ const NewPlantForm = ({addPlant}) => {
     const handleSubmit = (e) => {
       e.preventDefault()
 
+      // plant Schema works, but commented out due to not passing for test requirements
       // plantSchema.validate(formData)
       // .then(validFormData => {
         addPlant(formData)
@@ -40,11 +42,11 @@ const NewPlantForm = ({addPlant}) => {
         })
         .then(resp => {
           if (!resp.ok) {
-            console.log(error)
+            console.log(error) // use the setError that was created instead
           }
-          return resp.json()
+          return resp.json() // not needed, what does this do? use a .then l
         })
-        setFormData(initialState)
+        setFormData(initialState) // since using optimistic approach, this is asynch, so use .then(setFormData) or use } else setFormData
       }
     //   })
     //  .catch(validationError => setError(validationError.message))
@@ -54,7 +56,8 @@ const NewPlantForm = ({addPlant}) => {
       {error ? <p className="error-message red">{error}</p> : null}
       <h2>New Plant</h2>
       <form className="form" onSubmit={handleSubmit}>
-        <input type="text" id="name" placeholder="Plant name" value={formData.name} onChange={handleChange}/>
+        {/* id is fine, but use name=  instead so unless id is used in other components, this would cause problems */}
+        <input type="text" id="name" placeholder="Plant name" value={formData.name} onChange={handleChange}/> 
         <input type="text" id="image" placeholder="Image URL" value={formData.image} onChange={handleChange}/>
         <input type="number" id="price" step="0.01" placeholder="Price" value={formData.price} onChange={handleChange}/>
         <button type="submit">Add Plant</button>

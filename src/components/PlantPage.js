@@ -23,16 +23,17 @@ const PlantPage = () => {
     setSearchQuery(e.target.value)
   }
 
+  // can created new id variable here and then pass it to the server, so no need for the server to create a new id and not match the db.json id
   const addPlant = (newPlant) => {
     setPlants(currentPlants => {
-      const lastPlantArray = currentPlants.slice(-1)
-      const id = lastPlantArray.length ? Number(lastPlantArray[0].id) + 1 : uuidv4()
+      const lastPlantArray = currentPlants.slice(-1) // not needed is current days
+      const id = lastPlantArray.length ? Number(lastPlantArray[0].id) + 1 : uuidv4() //not needed in current days
       return [...currentPlants, { ...newPlant, id }]
     })
   }
 
   const handleDelete = (id) => {
-    setPlants(setPlants(current => current.filter(plant => plant.id !== id)))
+    setPlants(setPlants(current => current.filter(plant => plant.id !== id))) // if created id prior to sending to the server, this would work
   }
 
   return (
